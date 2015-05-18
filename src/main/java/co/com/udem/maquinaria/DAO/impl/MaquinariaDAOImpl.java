@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import co.com.udem.maquinaria.DAO.MaquinariaDAO;
+import co.com.udem.maquinaria.DTO.StatusDTO;
 import co.com.udem.maquinaria.domain.maquinas;
 
 @Repository
@@ -40,14 +41,18 @@ public class MaquinariaDAOImpl implements MaquinariaDAO {
 		
 		return listMaquinas;
 	}
-	
-	public List<maquinas> updateMaquina(long idmaquina,String imagen,String nombre,Double precio,Double descuento,String descripcion,String disponibilidad){
 
+	public StatusDTO deleleteMaquina(long idmaquina) {
+		StatusDTO statusDTO = new StatusDTO();
 		Session session = sessionFactory.getCurrentSession();
-		Query query = session.createQuery("UPDATE maquinas m SET m.imagen="+imagen+",m.nombre="+nombre+",m.precio="+precio+
-		",m.descuento="+descuento+",m.descripcion="+descripcion+",m.disponibilidad="+disponibilidad+" WHERE m.idmaquina="+idmaquina);
-		List<maquinas> response = (List<maquinas>)query.list();
-		return response;
+		maquinas m = (maquinas) session.load(maquinas.class, new Long(idmaquina));
+		try {
+			session.delete(m);
+			statusDTO.setStatus("success");
+		} catch (Exception e) {
+			statusDTO.setStatus("error");
+		}
+		return statusDTO;
 	}
 
 }

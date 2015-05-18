@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import co.com.udem.maquinaria.DTO.MaquinariaDTO;
+import co.com.udem.maquinaria.DTO.StatusDTO;
 import co.com.udem.maquinaria.bussines.MaquinariaService;
 import co.com.udem.maquinaria.domain.maquinas;
 
@@ -34,19 +36,19 @@ public class MaquinariaController {
 
 	// Este metodo devuelve en formato JSON toda la tabla de la BdeD
 	@RequestMapping("/listAPI")
-	public @ResponseBody List<maquinas> maquinasListApi(HttpServletRequest request,
-			HttpServletResponse response) {
+	public @ResponseBody List<MaquinariaDTO> maquinasListApi(
+			HttpServletRequest request, HttpServletResponse response) {
 		response.addHeader("Access-Control-Allow-Origin", "*");
 		response.addHeader("Access-Control-Allow-Methods",
 				"GET,PUT,POST,DELETE");
 		response.addHeader("Access-Control-Allow-Headers", "Content-Type");
-		List<maquinas> maquinas = maquinariaService.getMaquinas();
-		return maquinas;
+
+		return maquinariaService.getMaquinas();
 	}
 
 	// Este metodo devuelve la mquina por el id pasado por el parametro
 	@RequestMapping("/listAPIid")
-	public @ResponseBody List<maquinas> maquinaById(
+	public @ResponseBody List<MaquinariaDTO> maquinaById(
 			HttpServletRequest request,
 			HttpServletResponse response,
 			@RequestParam(value = "id", required = true, defaultValue = "1") Long identificador) {
@@ -55,26 +57,19 @@ public class MaquinariaController {
 				"GET,PUT,POST,DELETE");
 		response.addHeader("Access-Control-Allow-Headers", "Content-Type");
 		System.out.println("Este es en /listAPIid  " + identificador);
-		List<maquinas> maquinas = maquinariaService
-				.getMaquinasId(identificador);
-		return maquinas;
+		return maquinariaService.getMaquinasId(identificador);
 	}
 
-	// Este metodo devuelve la mquina por el id pasado por el parametro
-	// http://localhost:8080/maquinaria/maquinas/listUPDATE?id=1&imagen=../lib/images/1.jpg&nombre=cortadora&precio=350000
-	@RequestMapping("/listUPDATE")
-	public @ResponseBody List<maquinas> maquinaUpdate(
-			@RequestParam(value = "id", required = true, defaultValue = "1") Long idmaquina,
-			@RequestParam(value = "imagen", required = false, defaultValue = "../lib/images/1.jpg") String imagen,
-			@RequestParam(value = "nombre", required = false, defaultValue = "maquina") String nombre,
-			@RequestParam(value = "precio", required = false, defaultValue = "0.0") Double precio,
-			@RequestParam(value = "descuento", required = false, defaultValue = "0.0") Double descuento,
-			@RequestParam(value = "descripcion", required = false, defaultValue = "") String descripcion,
-			@RequestParam(value = "disponibilidad", required = false, defaultValue = "") String disponibilidad) {
-
-		List<maquinas> maquinas = maquinariaService.updateMaquina(idmaquina,
-				imagen, nombre, precio, descuento, descripcion, disponibilidad);
-		return maquinas;
+	@RequestMapping("/deleteId")
+	public @ResponseBody StatusDTO deleteMaquinaById(
+			HttpServletRequest request,
+			HttpServletResponse response,
+			@RequestParam(value = "id", required = true, defaultValue = "1") Long idmaquina) {
+		response.addHeader("Access-Control-Allow-Origin", "*");
+		response.addHeader("Access-Control-Allow-Methods",
+				"GET,PUT,POST,DELETE");
+		response.addHeader("Access-Control-Allow-Headers", "Content-Type");
+		return maquinariaService.deleleteMaquina(idmaquina);
 	}
 
 	@RequestMapping(value = "/redirect", method = RequestMethod.GET)

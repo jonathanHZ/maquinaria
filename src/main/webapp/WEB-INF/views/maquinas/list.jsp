@@ -38,7 +38,7 @@
 					</table>
 				</div>
 				<div class="col-md-3 column">
-					 <button type="button" class="btn btn-success btn-block">Ver-Detalle</button>
+					 <a type="button" class="btn btn-success btn-block" href="#myModal-${item.idmaquina}">Ver-Detalle</a>
 				</div>
 			</div>
 		</div>
