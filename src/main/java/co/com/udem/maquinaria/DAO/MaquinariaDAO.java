@@ -17,5 +17,6 @@ public interface MaquinariaDAO {
 	
 	public List<maquinas> getMaquinas();
 	public List<maquinas> getMaquinasId(long idmaquina);
+	public List<maquinas> getMaquinasData(String data);
 	public StatusDTO deleleteMaquina (long idmaquina);
 }

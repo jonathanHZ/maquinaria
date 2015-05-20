@@ -10,5 +10,6 @@ public interface MaquinariaService {
 	
 	public List<MaquinariaDTO> getMaquinas();
 	public List<MaquinariaDTO> getMaquinasId(long idmaquina);
+	public List<MaquinariaDTO> getMaquinasData(String data);
 	public StatusDTO deleleteMaquina (long idmaquina);
 }

@@ -18,34 +18,49 @@ public class MaquinariaDAOImpl implements MaquinariaDAO {
 
 	@Autowired
 	private SessionFactory sessionFactory;
-	
-	public List<maquinas> getMaquinas() {
-		
+
+	public List<maquinas> getMaquinasData(String data) {
 		Session session = sessionFactory.getCurrentSession();
-		Query query = session.createQuery("FROM maquinas");
-		
+		Query query = session
+				.createQuery("SELECT m FROM maquinas m WHERE m.nombre LIKE '%"
+						+ data + "%'");
+
 		@SuppressWarnings("unchecked")
 		List<maquinas> listMaquinas = (List<maquinas>) query.list();
-		
+
 		return listMaquinas;
 	}
-	
-	public List<maquinas> getMaquinasId(long idmaquina) {
-		
+
+	public List<maquinas> getMaquinas() {
+
 		Session session = sessionFactory.getCurrentSession();
-		Query query = session.createQuery("SELECT m FROM maquinas m WHERE m.idmaquina ="+idmaquina);
-//		query.setParameter(0, idmaquina);
-		
+		Query query = session.createQuery("FROM maquinas");
+
 		@SuppressWarnings("unchecked")
 		List<maquinas> listMaquinas = (List<maquinas>) query.list();
-		
+
+		return listMaquinas;
+	}
+
+	public List<maquinas> getMaquinasId(long idmaquina) {
+
+		Session session = sessionFactory.getCurrentSession();
+		Query query = session
+				.createQuery("SELECT m FROM maquinas m WHERE m.idmaquina ="
+						+ idmaquina);
+		// query.setParameter(0, idmaquina);
+
+		@SuppressWarnings("unchecked")
+		List<maquinas> listMaquinas = (List<maquinas>) query.list();
+
 		return listMaquinas;
 	}
 
 	public StatusDTO deleleteMaquina(long idmaquina) {
 		StatusDTO statusDTO = new StatusDTO();
 		Session session = sessionFactory.getCurrentSession();
-		maquinas m = (maquinas) session.load(maquinas.class, new Long(idmaquina));
+		maquinas m = (maquinas) session.load(maquinas.class,
+				new Long(idmaquina));
 		try {
 			session.delete(m);
 			statusDTO.setStatus("success");

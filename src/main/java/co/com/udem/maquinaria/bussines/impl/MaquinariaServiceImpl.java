@@ -66,5 +66,27 @@ public class MaquinariaServiceImpl implements MaquinariaService {
 	public StatusDTO deleleteMaquina(long idmaquina) {
 		return maquinariaDAO.deleleteMaquina(idmaquina);
 	}
+	
+	@Transactional
+	public List<MaquinariaDTO> getMaquinasData(String data) {
+
+		List<MaquinariaDTO> list = new ArrayList<MaquinariaDTO>();
+		List<maquinas> maquinas = maquinariaDAO.getMaquinasData(data);
+		for (maquinas maquinas2 : maquinas) {
+			MaquinariaDTO maquinariaDTO = new MaquinariaDTO();
+			maquinariaDTO.setIdmaquina(maquinas2.getIdmaquina());
+			maquinariaDTO.setImagen(maquinas2.getImagen());
+			maquinariaDTO.setNombre( maquinas2.getNombre());
+			maquinariaDTO.setPrecio(maquinas2.getPrecio());
+			maquinariaDTO.setDescuento(maquinas2.getDescuento());
+			maquinariaDTO.setDescripcion(maquinas2.getDescripcion());
+			maquinariaDTO.setDisponibilidad(maquinas2.getDisponibilidad());
+			double precioDescuento = maquinas2.getPrecio()-((maquinas2.getPrecio()*maquinas2.getDescuento())/100);
+			maquinariaDTO.setPrecioDescuento(precioDescuento);
+			list.add(maquinariaDTO);
+		}
+		return list;
+
+	}
 
 }

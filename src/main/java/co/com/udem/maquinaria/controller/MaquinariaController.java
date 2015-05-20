@@ -72,16 +72,15 @@ public class MaquinariaController {
 		return maquinariaService.deleleteMaquina(idmaquina);
 	}
 
-	@RequestMapping(value = "/redirect", method = RequestMethod.GET)
-	public String redirect() {
-
-		return "redirect:detail";
+	@RequestMapping("/listAPIData")
+	public @ResponseBody List<MaquinariaDTO> getMaquinasData(
+			HttpServletRequest request,
+			HttpServletResponse response,
+			@RequestParam(value = "data", required = true) String data) {
+		response.addHeader("Access-Control-Allow-Origin", "*");
+		response.addHeader("Access-Control-Allow-Methods",
+				"GET,PUT,POST,DELETE");
+		response.addHeader("Access-Control-Allow-Headers", "Content-Type");
+		return maquinariaService.getMaquinasData(data);
 	}
-
-	@RequestMapping(value = "/detail", method = RequestMethod.GET)
-	public String finalPage() {
-
-		return "detail";
-	}
-
 }
